@@ -13,22 +13,22 @@ with open(csvpath, encoding='utf') as election: #open file
     total_votes_cand2 = 0
     total_votes_cand3 = 0
     
-    full_candidate_list = []
+    full_candidate_list = [] #create lists
     candidate_list = []
     winner = []
     
-    for row in votereader:
+    for row in votereader: #loop thru lines to get raw totals
         
         total_votes += 1
         full_candidate_list.append(str(row[2]))
         
     for row in range(len(full_candidate_list)):
         
-        if full_candidate_list[row] != full_candidate_list[row - 1] and full_candidate_list[row - 1] not in candidate_list:
+        if full_candidate_list[row] != full_candidate_list[row - 1] and full_candidate_list[row - 1] not in candidate_list: #loop thru raw names to get each occurance of a unique entry
             total_candidates += 1
             candidate_list.append(str(full_candidate_list[row - 1]))
             
-    for row in range(len(full_candidate_list)):
+    for row in range(len(full_candidate_list)): #loop thru again using previously generated list to count vote totals for each name
         
         if candidate_list[0] == full_candidate_list[row]:
             total_votes_cand1 += 1
@@ -37,16 +37,16 @@ with open(csvpath, encoding='utf') as election: #open file
         else:
             total_votes_cand3 += 1
             
-    if total_votes_cand1 > total_votes_cand2 and total_votes_cand3:
+    if total_votes_cand1 > total_votes_cand2 and total_votes_cand1 > total_votes_cand3: #if comparisons to determine winner by popular vote
         winner.append(candidate_list[0])
-    elif total_votes_cand2 > total_votes_cand3 and total_votes_cand1:
+    elif total_votes_cand2 > total_votes_cand3 and total_votes_cand2 > total_votes_cand1:
         winner.append(candidate_list[1])
     else:
         winner.append(candidate_list[2])
     
     winner_name = winner[0]
     
-    can1_percent = (total_votes_cand1/total_votes) * 100
+    can1_percent = (total_votes_cand1/total_votes) * 100 #calculate percent each won
     can2_percent = (total_votes_cand2/total_votes) * 100
     can3_percent = (total_votes_cand3/total_votes) * 100
     
